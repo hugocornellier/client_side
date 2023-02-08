@@ -42,9 +42,9 @@ int main(int argc, char *argv[]) {
 
     // Initialise server address for UDP connection
     servAddr = malloc(sAddrLen);
-    console.log("Here..");
+    printf("Here..");
     bzero(servAddr, sAddrLen);
-    console.log("Done....");
+    printf("Done....");
     servAddr->sin_family = AF_INET;
     int res = inet_pton(AF_INET, SERV_IP, &(servAddr->sin_addr.s_addr));
     if (res <= 0) {
