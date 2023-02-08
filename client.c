@@ -29,6 +29,8 @@ void parseRecord(char *record, char **recordCont);
 double gaussianrvGen(int privacyLevel); // Removed as it was not my own
 
 int main(int argc, char *argv[]) {
+
+    printf("Starting program...");
     // UDP SECTION
     RegMsg_t *regMsg;
     int sock, sAddrLen = sizeof(struct sockaddr_in);
