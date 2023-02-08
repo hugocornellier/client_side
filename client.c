@@ -201,9 +201,7 @@ int main(int argc, char *argv[]) {
                     scanf("%s", input);
                     j = atoi(input);
                     //printf("input=%d, privacyLevel=%d\n", j, privacyLevel);
-                    rV = gaussianrvGen(privacyLevel);
                     //printf("input + rV =%.16lf\n", (double)j+rV);
-                    sprintf(input, "%.16lf", (double)j + rV);
                     //printf("uploaded input = %s\n", input);
 
                     strcpy(command, "GET http://149.171.93.198/survey/");
