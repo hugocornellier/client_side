@@ -40,8 +40,22 @@ int main(int argc, char *argv[]) {
         printf("\nConnection Failed \n");
         return -1;
     }
+    printf("Sending message");
+    char message[256] = "test";
+    memset(message, 0, sizeof(message));
+    memset(si, 0, sizeof(si));
+    num = strlen(msg);
+    integertostring(si, num, 4);
+    memcpy(message, si, 4);
+    memcpy(message + strlen(message), msg, strlen(msg));
 
-    read(s , buffer, 1024);
-    printf("%s\n",buffer);
+    rc = send(sd, message, strlen(message), 0);
+    if(rc<0)
+    {
+        close(sd);
+        exit(1);
+
+    }
+    printf("Done");
     return 0;
 }
