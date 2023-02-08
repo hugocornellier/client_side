@@ -44,7 +44,14 @@ int main(int argc, char *argv[]) {
     servAddr = malloc(sAddrLen);
     bzero(servAddr, sAddrLen);
     servAddr->sin_family = AF_INET;
-    inet_pton(AF_INET, SERV_IP, &(servAddr->sin_addr.s_addr));
+    int res = inet_pton(AF_INET, SERV_IP, &(servAddr->sin_addr.s_addr));
+    if (res <= 0) {
+        if (s == 0)
+            fprintf(stderr, "Not in presentation format");
+        else
+            perror("inet_pton");
+        exit(EXIT_FAILURE);
+    }
     servAddr->sin_port = htons(UDP_SERV_PORT);
 
     // UDP connection - user password
