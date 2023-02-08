@@ -11,7 +11,7 @@ int main(int argc, char *argv[]) {
     port = atoi("7878");
     char *ipaddress;
     struct sockaddr_in serv_addr;
-    char buffer[1024] = {0};
+    char buffer[1024] = "Hello world";
     ipaddress = "192.168.1.2";
 
     serv_addr.sin_family = AF_INET;
@@ -40,20 +40,8 @@ int main(int argc, char *argv[]) {
         printf("\nConnection Failed \n");
         return -1;
     }
-    memset(message, 0, sizeof(message));
-    memset(si, 0, sizeof(si));
-    num = strlen(msg);
-    integertostring(si, num, 4);
-    memcpy(message, si, 4);
-    memcpy(message + strlen(message), msg, strlen(msg));
 
-    rc = send(sd, message, strlen(message), 0);
-    if(rc<0)
-    {
-        close(sd);
-        exit(1);
-
-    }
-    printf("Done");
+    send(s, buffer, sizeof(buffer), 1024);
+    printf("%s\n",buffer);
     return 0;
 }
