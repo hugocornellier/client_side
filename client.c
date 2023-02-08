@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
     servAddr->sin_family = AF_INET;
     int res = inet_pton(AF_INET, SERV_IP, &(servAddr->sin_addr.s_addr));
     if (res <= 0) {
-        if (s == 0)
+        if (res == 0)
             fprintf(stderr, "Not in presentation format");
         else
             perror("inet_pton");
