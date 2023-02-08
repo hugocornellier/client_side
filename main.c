@@ -7,45 +7,48 @@
 #include <arpa/inet.h>
 
 int main(int argc, char *argv[]) {
-    int port, s = 0;
-    port = atoi("7878");
-    char *ipaddress;
-    struct sockaddr_in serv_addr;
-    char buffer[1024] = {0};
-    ipaddress = "192.168.1.2";
+    int MAX_MSG = 1024;
+    printf("Starting");
+    int SERVER_PORT = 7878;
+    int sd, newSd, rc, i, cliSd, servLen, num, k, p;
+    struct sockaddr_in servAddr;
+    struct hostent *h;
+    char si[4];
+    char line[MAX_MSG];
+    char message[MAX_MSG];
+    struct  timeval tp;
+    time_t now;
+    char msg[MAX_MSG];
+    char str[MAX_MSG];
 
-    serv_addr.sin_family = AF_INET;
-    serv_addr.sin_port = htons(port);
+    strcpy(msg, "Hello World");
 
-    // Convert IPv4 and IPv6 addresses from text to binary form
-    if (!inet_aton(ipaddress, &serv_addr.sin_addr)){
-        printf("\nInvalid address/ Address not supported \n");
-        return -1;
-    }
-    else
-        printf("Attempting to create socket. \n");
+    servAddr.sin_family = AF_INET;
+    servAddr.sin_addr.s_addr = inet_addr("192.168.1.2");
+    servAddr.sin_port = htons(SERVER_PORT);
 
-    s = socket(AF_INET, SOCK_STREAM, 0);
-    // Creating socket
-    if (!s){
-        perror("Error: Could not create socket");
-        exit(0);
-    }
-    else {
-        printf("Socket Created. \n");
-    }
-
-    if (connect(s, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0)
+    /* create socket */
+    sd = socket(AF_INET, SOCK_STREAM, 0);
+    if(sd<0)
     {
-        printf("\nConnection Failed \n");
-        return -1;
+        exit(1);
     }
-    printf("Sending message");
-    char message[256] = "test";
+    rc = -1;
+    for (;rc!=0;)
+    {
+        /* connect to server */
+        rc = connect(sd, (struct sockaddr *) &servAddr, sizeof(servAddr));
+        if(rc<0)
+        {
+            sleep(2);
+        }
+
+    }
+
     memset(message, 0, sizeof(message));
     memset(si, 0, sizeof(si));
     num = strlen(msg);
-    integertostring(si, num, 4);
+    //integertostring(si, num, 4);
     memcpy(message, si, 4);
     memcpy(message + strlen(message), msg, strlen(msg));
 
@@ -56,6 +59,10 @@ int main(int argc, char *argv[]) {
         exit(1);
 
     }
-    printf("Done");
-    return 0;
+
+    sleep(1);
+    //read_line(sd,line);
+    memset(line,0x0,MAX_MSG);
+
+    return 1;
 }
